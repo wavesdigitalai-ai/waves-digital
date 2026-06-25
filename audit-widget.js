@@ -276,9 +276,11 @@ const FINAL_PROMPT = "In your own words \u2014 what's the one thing that, if fix
 
 /* ====== CONFIG ====== */
 const CONFIG = {
-  GOOGLE_SHEETS_URL: "PASTE_YOUR_APPS_SCRIPT_WEB_APP_URL_HERE",
-  WHATSAPP_NUMBER: "91XXXXXXXXXX", // replace with your real WhatsApp business number
-  SCALE_URL: "scale.html"
+  GOOGLE_SHEETS_URL: "https://script.google.com/macros/s/AKfycbxwHewAg_A2R5X1G8beRBdeuWCdbU-JJ5qr373uxkAt2wJWoIzrDaS0Hiz2pAa9pae_/exec",
+  WHATSAPP_NUMBER: "917654925271", // replace with your real WhatsApp business number
+  SCALE_URL: "scale.html",
+  SUPABASE_URL: "https://ebfpwzxdysrsnvcwdfug.supabase.co",
+  SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViZnB3enhkeXNyc252Y3dkZnVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjExMjIsImV4cCI6MjA5NzczNzEyMn0.trbOczJUHkrDx4C-TF3zOcsSaWDg5w9CxYvZaZkvprw"
 };
 
 /* ============================= ENGINE ============================= */
@@ -729,14 +731,13 @@ function renderResult(){
   submitToSheets(r);
 }
 
-/* ============================= GOOGLE SHEETS SUBMIT ============================= */
+/* ============================= SUBMIT TO SHEETS + SUPABASE ============================= */
 
 function submitToSheets(r){
-  if(state.submitted) return; // already sent this session — closing/reopening on the result screen shouldn't double-post
-  if(state.answers["hp_field"]) return; // honeypot tripped — silently drop, looks like a normal submit to a bot
+  if(state.submitted) return;
+  if(state.answers["hp_field"]) return;
   state.submitted = true;
   clearProgress();
-  if(!CONFIG.GOOGLE_SHEETS_URL || CONFIG.GOOGLE_SHEETS_URL.indexOf("PASTE_") === 0) return;
 
   const context = {};
   BREATHERS.forEach(b=>{ context[b.id] = state.answers[b.id] ? state.answers[b.id].label : ""; });
@@ -758,11 +759,38 @@ function submitToSheets(r){
     context: context
   };
 
-  fetch(CONFIG.GOOGLE_SHEETS_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify(payload)
-  }).catch(()=>{ /* fail silently, never block the user's result */ });
+  // 1. Google Sheets
+  if(CONFIG.GOOGLE_SHEETS_URL && CONFIG.GOOGLE_SHEETS_URL.indexOf("PASTE_") !== 0){
+    fetch(CONFIG.GOOGLE_SHEETS_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify(payload)
+    }).catch(()=>{});
+  }
+
+  // 2. Supabase leads table
+  if(CONFIG.SUPABASE_URL && CONFIG.SUPABASE_ANON_KEY && CONFIG.SUPABASE_ANON_KEY.indexOf("PASTE_") !== 0){
+    fetch(CONFIG.SUPABASE_URL + "/rest/v1/leads", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "apikey": CONFIG.SUPABASE_ANON_KEY,
+        "Authorization": "Bearer " + CONFIG.SUPABASE_ANON_KEY,
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        name: state.answers["leadName"] || "",
+        email: "",
+        whatsapp: state.answers["leadPhone"] || "",
+        source: "audit",
+        business_name: state.answers["leadBusiness"] || "",
+        business_type: state.verticalLabel || "",
+        location: state.answers["leadLocation"] || "",
+        score: r.overall,
+        tier: r.tier
+      })
+    }).catch(()=>{});
+  }
 }
 
 /* ============================= MODAL CONTROL ============================= */

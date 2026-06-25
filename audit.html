@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Business Audit — Waves Digital</title>
+<meta name="description" content="A free 3-minute diagnostic that shows you exactly where your business's foundation stands.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFDF9; --ink:#15120D;
+    --ink-soft:rgba(21,18,13,0.62); --ink-faint:rgba(21,18,13,0.38);
+    --line:rgba(21,18,13,0.10);
+    --blue-50:#EAF1FE; --blue-100:#CFE0FD; --blue-300:#8AB4FA;
+    --blue-500:#2E7CF6; --blue-600:#0660EB; --blue-900:#042F73;
+    --red:#C4451C; --amber:#B8860B; --green:#1E7A4C;
+    --paper:#FFFFFF; --max:880px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:'DM Sans',sans-serif; -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  h1,h2,h3,.display{ font-family:'Syne',sans-serif; letter-spacing:-0.01em; margin:0; }
+  .serif{ font-family:'DM Serif Display',serif; font-style:italic; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 24px; }
+  a:focus-visible, button:focus-visible, input:focus-visible{
+    outline:2px solid var(--blue-600); outline-offset:3px; border-radius:6px;
+  }
+
+  .nav{ position:sticky; top:0; z-index:50; background:rgba(255,253,249,0.9); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  .nav .wrap{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+  .logo{ font-family:'Syne',sans-serif; font-weight:700; font-size:18px; }
+  .logo span{ color:var(--blue-600); }
+  .nav-back{ font-size:13.5px; color:var(--ink-soft); font-weight:600; }
+  .nav-back:hover{ color:var(--blue-600); }
+
+  main{ padding:56px 0 90px; }
+  .screen{ display:none; }
+  .screen.active{ display:block; animation:rise .45s ease; }
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- intro ---------- */
+  .intro-head{ max-width:620px; }
+  .eyebrow{ display:inline-flex; align-items:center; gap:8px; font-size:12.5px; letter-spacing:0.14em; text-transform:uppercase; color:var(--blue-600); font-weight:700; margin-bottom:18px; }
+  .eyebrow::before{ content:''; width:7px; height:7px; border-radius:50%; background:var(--blue-600); display:inline-block; }
+  .intro-head h1{ font-size:clamp(32px,5vw,48px); font-weight:800; line-height:1.08; }
+  .intro-head p{ font-size:17px; line-height:1.6; color:var(--ink-soft); margin-top:20px; max-width:540px; }
+  .intro-meta{ display:flex; gap:28px; margin:32px 0 44px; flex-wrap:wrap; }
+  .meta-item{ font-size:13.5px; color:var(--ink-faint); display:flex; align-items:center; gap:8px; font-weight:600; }
+  .meta-item svg{ flex:0 0 auto; }
+
+  .vert-label{ font-size:13px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); font-weight:700; margin-bottom:16px; }
+  .vert-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+  @media (max-width:680px){ .vert-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:420px){ .vert-grid{ grid-template-columns:1fr; } }
+  .vert-btn{
+    display:block; text-align:left; width:100%; border:1.5px solid var(--line); border-radius:14px;
+    padding:20px 18px; background:var(--paper); cursor:pointer;
+    transition:border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+  }
+  .vert-btn:hover{ border-color:var(--blue-500); transform:translateY(-2px); box-shadow:0 14px 28px -16px rgba(6,96,235,0.35); }
+  .vert-btn .vname{ font-family:'Syne',sans-serif; font-weight:700; font-size:16px; }
+  .vert-btn .vname .who{ color:var(--blue-600); font-weight:600; }
+  .vert-btn .vdesc{ display:block; font-size:13px; color:var(--ink-soft); margin-top:6px; font-weight:400; }
+
+  /* ---------- question screen ---------- */
+  .progress-row{ display:flex; align-items:center; gap:14px; margin-bottom:36px; }
+  .progress-track{ flex:1; height:6px; border-radius:100px; background:var(--line); overflow:hidden; }
+  .progress-fill{ height:100%; background:var(--blue-600); border-radius:100px; transition:width .4s ease; width:0%; }
+  .progress-text{ font-size:12.5px; color:var(--ink-faint); font-weight:700; white-space:nowrap; }
+
+  .gauge-wrap{ display:flex; justify-content:center; margin-bottom:8px; }
+  .gauge{ width:84px; height:84px; }
+  .gauge circle.track{ stroke:var(--line); fill:none; stroke-width:7; }
+  .gauge circle.fill{ stroke:var(--blue-600); fill:none; stroke-width:7; stroke-linecap:round; transition:stroke-dasharray .5s ease; transform:rotate(-90deg); transform-origin:50% 50%; }
+  .gauge-num{ font-family:'Syne',sans-serif; font-weight:800; font-size:18px; }
+
+  .cat-tag{ font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue-600); font-weight:700; text-align:center; margin-bottom:14px; }
+  .q-text{ font-family:'Syne',sans-serif; font-size:clamp(22px,3.4vw,28px); font-weight:700; line-height:1.3; text-align:center; max-width:560px; margin:0 auto 40px; }
+
+  .opt-list{ display:flex; flex-direction:column; gap:12px; max-width:560px; margin:0 auto; }
+  .opt-btn{
+    text-align:left; width:100%; border:1.5px solid var(--line); border-radius:14px;
+    padding:18px 20px; background:var(--paper); cursor:pointer; font-size:15.5px; font-weight:500;
+    transition:border-color .18s ease, background .18s ease, transform .18s ease;
+    display:flex; align-items:center; gap:14px;
+  }
+  .opt-btn .opt-dot{ width:18px; height:18px; border-radius:50%; border:1.5px solid var(--ink-faint); flex:0 0 auto; transition:border-color .18s ease, background .18s ease; }
+  .opt-btn:hover{ border-color:var(--blue-500); background:var(--blue-50); transform:translateX(2px); }
+  .opt-btn:hover .opt-dot{ border-color:var(--blue-600); }
+
+  .q-nav{ display:flex; justify-content:center; margin-top:32px; }
+  .btn-text{ font-size:13.5px; color:var(--ink-faint); font-weight:600; cursor:pointer; background:none; border:none; }
+  .btn-text:hover{ color:var(--blue-600); }
+
+  /* ---------- lead form ---------- */
+  .form-head{ text-align:center; max-width:480px; margin:0 auto 36px; }
+  .form-head h2{ font-size:clamp(24px,3.6vw,32px); font-weight:800; line-height:1.2; }
+  .form-head p{ color:var(--ink-soft); margin-top:12px; font-size:15px; line-height:1.55; }
+  .lead-form{ max-width:440px; margin:0 auto; display:flex; flex-direction:column; gap:16px; }
+  .field label{ display:block; font-size:13px; font-weight:700; margin-bottom:7px; color:var(--ink); }
+  .field input{
+    width:100%; border:1.5px solid var(--line); border-radius:10px; padding:13px 14px;
+    font-size:15px; font-family:inherit; background:var(--paper); color:var(--ink);
+    transition:border-color .18s ease;
+  }
+  .field input:focus{ border-color:var(--blue-600); }
+  .field.optional label::after{ content:' (optional)'; font-weight:400; color:var(--ink-faint); }
+  .hp-field{ position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
+  .btn-primary{
+    background:var(--blue-600); color:#fff; padding:16px 28px; border-radius:100px;
+    font-weight:700; font-size:15.5px; border:none; cursor:pointer;
+    box-shadow:0 14px 30px -10px rgba(6,96,235,0.55);
+    transition:transform .25s ease, box-shadow .25s ease, opacity .2s ease;
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; width:100%;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); }
+  .btn-primary:disabled{ opacity:0.6; cursor:default; transform:none; }
+  .form-fine{ font-size:12px; color:var(--ink-faint); text-align:center; margin-top:4px; }
+
+  /* ---------- results ---------- */
+  .result-head{ text-align:center; max-width:560px; margin:0 auto 44px; }
+  .tier-badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 18px; border-radius:100px; font-weight:700; font-size:13px; letter-spacing:0.04em; margin-bottom:22px; }
+  .tier-badge.critical{ background:rgba(196,69,28,0.1); color:var(--red); }
+  .tier-badge.moderate{ background:rgba(184,134,11,0.1); color:var(--amber); }
+  .tier-badge.stable{ background:rgba(30,122,76,0.1); color:var(--green); }
+  .tier-badge .dot{ width:7px; height:7px; border-radius:50%; background:currentColor; }
+  .result-head h2{ font-size:clamp(26px,4vw,38px); font-weight:800; line-height:1.18; }
+  .result-narrative{ font-size:16px; line-height:1.7; color:var(--ink-soft); margin-top:20px; text-align:left; max-width:560px; margin-left:auto; margin-right:auto; }
+
+  .score-overview{ display:flex; justify-content:center; align-items:center; gap:28px; margin:36px 0 48px; flex-wrap:wrap; }
+  .score-circle{ width:120px; height:120px; position:relative; }
+  .score-circle .scnum{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .score-circle .scnum b{ font-family:'Syne',sans-serif; font-size:28px; font-weight:800; }
+  .score-circle .scnum span{ font-size:11px; color:var(--ink-faint); font-weight:600; text-transform:uppercase; letter-spacing:0.06em; }
+
+  .cat-breakdown{ display:flex; flex-direction:column; gap:18px; max-width:560px; margin:0 auto 48px; }
+  .cat-row{ display:grid; grid-template-columns:170px 1fr 46px; gap:14px; align-items:center; }
+  @media (max-width:520px){ .cat-row{ grid-template-columns:120px 1fr 40px; } }
+  .cat-row .cat-name{ font-size:13.5px; font-weight:700; }
+  .cat-row .cat-track{ height:8px; background:var(--line); border-radius:100px; overflow:hidden; }
+  .cat-row .cat-fill{ height:100%; border-radius:100px; transition:width .6s ease; }
+  .cat-row .cat-pct{ font-size:13px; font-weight:700; text-align:right; color:var(--ink-soft); }
+
+  .result-ctas{ display:flex; flex-direction:column; gap:16px; max-width:480px; margin:0 auto; }
+  .cta-whatsapp{
+    background:var(--ink); color:#fff; padding:18px 24px; border-radius:14px;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    transition:transform .2s ease; font-weight:700; font-size:15.5px;
+  }
+  .cta-whatsapp:hover{ transform:translateY(-2px); }
+  .cta-whatsapp small{ display:block; font-weight:400; font-size:12.5px; color:rgba(255,253,249,0.6); margin-top:3px; }
+
+  .sidesell{
+    border:1.5px solid var(--blue-100); background:var(--blue-50); border-radius:14px; padding:22px;
+    display:flex; gap:16px; align-items:center; justify-content:space-between; flex-wrap:wrap;
+  }
+  .sidesell .ss-text{ font-size:14px; line-height:1.5; max-width:300px; }
+  .sidesell .ss-text strong{ display:block; font-family:'Syne',sans-serif; font-size:16px; margin-bottom:4px; }
+  .sidesell .ss-cta{ background:var(--blue-600); color:#fff; padding:11px 20px; border-radius:100px; font-weight:700; font-size:13.5px; white-space:nowrap; }
+  .sidesell .ss-cta:hover{ background:var(--blue-900); }
+
+  .restart-row{ text-align:center; margin-top:40px; }
+  .restart-row button{ background:none; border:none; font-size:13px; color:var(--ink-faint); font-weight:600; cursor:pointer; }
+  .restart-row button:hover{ color:var(--blue-600); }
+
+  .sr-only{ position:absolute; left:-9999px; }
+
+  /* ================= LANDING / MARKETING CONTENT ================= */
+  .landing-max{ max-width:1120px; margin:0 auto; padding:0 28px; }
+  @media (max-width:640px){ .landing-max{ padding:0 20px; } }
+
+  .lp-hero{ padding:76px 0 60px; }
+  .lp-hero h1{ font-size:clamp(34px,5.4vw,58px); font-weight:800; line-height:1.06; max-width:760px; }
+  .lp-hero h1 .accent{ color:var(--blue-600); }
+  .lp-hero-sub{ font-size:17.5px; line-height:1.62; color:var(--ink-soft); margin:24px 0 34px; max-width:560px; }
+  .lp-meta{ display:flex; gap:28px; margin-bottom:38px; flex-wrap:wrap; }
+
+  .btn-primary-lg{
+    background:var(--blue-600); color:#fff; padding:17px 32px; border-radius:100px;
+    font-weight:700; font-size:15.5px; border:none; cursor:pointer;
+    display:inline-flex; align-items:center; gap:10px;
+    box-shadow:0 14px 30px -10px rgba(6,96,235,0.55);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .btn-primary-lg:hover{ transform:translateY(-2px); box-shadow:0 18px 36px -8px rgba(6,96,235,0.65); }
+  .btn-primary-lg svg{ transition:transform .25s ease; }
+  .btn-primary-lg:hover svg{ transform:translateX(3px); }
+
+  .lp-section{ padding:64px 0; }
+  .lp-section-head{ max-width:640px; margin-bottom:42px; }
+  .lp-section-head h2{ font-size:clamp(26px,3.6vw,38px); font-weight:800; line-height:1.16; }
+  .lp-section-head p{ color:var(--ink-soft); font-size:16.5px; line-height:1.6; margin-top:14px; }
+
+  .cat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border-radius:18px; overflow:hidden; }
+  @media (max-width:880px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .cat-grid{ grid-template-columns:1fr; } }
+  .cat-info-card{ background:var(--bg); padding:28px 24px; }
+  .cat-info-card .ci-num{ font-family:'Syne',sans-serif; font-weight:800; font-size:12px; color:var(--blue-600); letter-spacing:0.08em; }
+  .cat-info-card h4{ font-family:'Syne',sans-serif; font-size:16.5px; font-weight:700; margin-top:10px; }
+  .cat-info-card p{ font-size:14px; color:var(--ink-soft); margin-top:10px; line-height:1.55; }
+
+  .lp-vert-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+  @media (max-width:880px){ .lp-vert-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .lp-vert-grid{ grid-template-columns:1fr; } }
+  .lp-vert-card{ border:1px solid var(--line); border-radius:16px; padding:22px; background:var(--paper); transition:border-color .25s ease, transform .25s ease; }
+  .lp-vert-card:hover{ border-color:var(--blue-300); transform:translateY(-3px); }
+  .lp-vert-card .vname{ font-family:'Syne',sans-serif; font-weight:700; font-size:15.5px; }
+  .lp-vert-card .vname .who{ color:var(--blue-600); font-weight:600; }
+  .lp-vert-card p{ font-size:13.5px; color:var(--ink-soft); margin-top:8px; line-height:1.5; }
+
+  .output-rows{ display:flex; flex-direction:column; gap:1px; background:var(--line); border-radius:18px; overflow:hidden; }
+  .output-row{ background:var(--bg); padding:24px 26px; display:flex; gap:18px; align-items:flex-start; }
+  .output-row .o-tag{ font-family:'Syne',sans-serif; font-weight:800; font-size:13px; color:var(--blue-600); min-width:88px; }
+  .output-row p{ font-size:15px; color:var(--ink-soft); margin:0; line-height:1.55; }
+  .output-row strong{ color:var(--ink); font-weight:700; }
+
+  .lp-faq-item{ border-top:1px solid var(--line); }
+  .lp-faq-item:last-child{ border-bottom:1px solid var(--line); }
+  .lp-faq-item summary{ cursor:pointer; list-style:none; padding:21px 0; display:flex; justify-content:space-between; align-items:center; gap:20px; font-weight:600; font-size:15.5px; }
+  .lp-faq-item summary::-webkit-details-marker{ display:none; }
+  .lp-faq-plus{ position:relative; width:18px; height:18px; flex:0 0 auto; }
+  .lp-faq-plus::before,.lp-faq-plus::after{ content:''; position:absolute; background:var(--ink); transition:transform .25s ease; }
+  .lp-faq-plus::before{ width:18px; height:2px; top:8px; left:0; }
+  .lp-faq-plus::after{ width:2px; height:18px; top:0; left:8px; }
+  .lp-faq-item[open] .lp-faq-plus::after{ transform:rotate(90deg); opacity:0; }
+  .lp-faq-item .lp-faq-body{ padding:0 0 22px; max-width:640px; color:var(--ink-soft); font-size:14.5px; line-height:1.62; }
+
+  .lp-final{ background:var(--ink); border-radius:28px; padding:68px 46px; text-align:center; margin:20px 0 60px; }
+  @media (max-width:640px){ .lp-final{ padding:48px 24px; } }
+  .lp-final h2{ color:var(--bg); font-size:clamp(26px,3.8vw,38px); font-weight:800; max-width:560px; margin:0 auto; line-height:1.2; }
+  .lp-final p{ color:rgba(255,253,249,0.65); margin:16px auto 30px; max-width:460px; font-size:15px; }
+  .lp-cross{ margin-top:20px; font-size:13.5px; color:rgba(255,253,249,0.55); }
+  .lp-cross a{ color:var(--blue-300); font-weight:600; border-bottom:1px solid rgba(138,180,250,0.4); }
+
+  .lp-footer{ padding:44px 0 60px; }
+  .lp-foot-row{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; }
+  .lp-foot-links{ display:flex; gap:24px; font-size:13.5px; color:var(--ink-soft); }
+  .lp-foot-links a:hover{ color:var(--blue-600); }
+  .lp-foot-fine{ font-size:12.5px; color:var(--ink-faint); margin-top:16px; }
+
+  /* the embedded quiz app — hidden until "Get the Audit" is clicked */
+  #auditApp{ display:none; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="wrap">
+    <a href="index.html" class="logo">Waves <span>Digital</span></a>
+    <a href="index.html" class="nav-back">← Back to site</a>
+  </div>
+</nav>
+
+<!-- ================= LANDING CONTENT ================= -->
+<header class="lp-hero landing-max">
+  <div class="eyebrow">The Business Audit</div>
+  <h1>Most owners can feel that something's off. <span class="accent">This shows you exactly what.</span></h1>
+  <p class="lp-hero-sub">A free, 3-minute diagnostic built from patterns we've seen across hundreds of Indian businesses — restaurants, clinics, salons, shops, institutes, and stays. Eighteen honest questions. One clear score. No payment, no signup, no catch.</p>
+  <div class="lp-meta">
+    <div class="meta-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round"/></svg> 3 minutes</div>
+    <div class="meta-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6"/></svg> Free, always</div>
+    <div class="meta-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Results on screen + WhatsApp</div>
+  </div>
+  <button class="btn-primary-lg" id="ctaHero">
+    Get the Audit
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</header>
+
+<section class="lp-section landing-max">
+  <div class="lp-section-head">
+    <div class="eyebrow">What It Actually Measures</div>
+    <h2>Six questions every business should be able to answer about itself.</h2>
+    <p>Each one of these is a place revenue quietly disappears when it's left to memory instead of a system.</p>
+  </div>
+  <div class="cat-grid">
+    <div class="cat-info-card"><div class="ci-num">01</div><h4>Customer Records</h4><p>Do you have a record of every customer, or just the ones you happen to remember?</p></div>
+    <div class="cat-info-card"><div class="ci-num">02</div><h4>Follow-Up &amp; Retention</h4><p>Are customers who've drifted away ever brought back, or just quietly gone for good?</p></div>
+    <div class="cat-info-card"><div class="ci-num">03</div><h4>Booking &amp; Scheduling</h4><p>Does a booking exist the moment it's made, or only in someone's memory until it isn't?</p></div>
+    <div class="cat-info-card"><div class="ci-num">04</div><h4>Online Visibility</h4><p>Can a new customer find you and trust you online, before they've ever called?</p></div>
+    <div class="cat-info-card"><div class="ci-num">05</div><h4>Process &amp; Documentation</h4><p>Could the business run a single normal day without you in it?</p></div>
+    <div class="cat-info-card"><div class="ci-num">06</div><h4>Money &amp; Performance</h4><p>Do you know your real numbers, or are you estimating them from memory?</p></div>
+  </div>
+</section>
+
+<section class="lp-section landing-max">
+  <div class="lp-section-head">
+    <div class="eyebrow">Built For Your Kind Of Business</div>
+    <h2>Six verticals, each with its own set of questions.</h2>
+  </div>
+  <div class="lp-vert-grid">
+    <div class="lp-vert-card"><div class="vname"><span class="who">Those Who</span> Feed</div><p>Restaurants, cafés, cloud kitchens.</p></div>
+    <div class="lp-vert-card"><div class="vname"><span class="who">Those Who</span> Heal</div><p>Clinics, wellness, diagnostics.</p></div>
+    <div class="lp-vert-card"><div class="vname"><span class="who">Those Who</span> Craft</div><p>Salons and spas.</p></div>
+    <div class="lp-vert-card"><div class="vname"><span class="who">Those Who</span> Trade</div><p>Retail and wholesale shops.</p></div>
+    <div class="lp-vert-card"><div class="vname"><span class="who">Those Who</span> Teach</div><p>Coaching and education.</p></div>
+    <div class="lp-vert-card"><div class="vname"><span class="who">Those Who</span> Host</div><p>Hotels and stays.</p></div>
+  </div>
+</section>
+
+<section class="lp-section landing-max">
+  <div class="lp-section-head">
+    <div class="eyebrow">What You'll Get</div>
+    <h2>Not a generic report. A clear picture of your own business.</h2>
+  </div>
+  <div class="output-rows">
+    <div class="output-row"><span class="o-tag">Score</span><p>A single number out of 100, calculated from your actual answers — <strong>not</strong> a generic placeholder.</p></div>
+    <div class="output-row"><span class="o-tag">Tier</span><p>A plain-language read on where you stand: <strong>Critical, Moderate,</strong> or <strong>Stable</strong> — and what that actually means for your business.</p></div>
+    <div class="output-row"><span class="o-tag">Breakdown</span><p>A category-by-category view, so you know exactly <strong>where</strong> the gaps are, not just that they exist.</p></div>
+    <div class="output-row"><span class="o-tag">Next step</span><p>The option to send your result to our WhatsApp and talk it through — entirely optional, never required.</p></div>
+  </div>
+</section>
+
+<section class="lp-section landing-max">
+  <div class="lp-section-head">
+    <div class="eyebrow">Before You Start</div>
+    <h2>Quick answers to the obvious questions.</h2>
+  </div>
+  <div>
+    <details class="lp-faq-item" open>
+      <summary>Is this actually free?<span class="lp-faq-plus"></span></summary>
+      <div class="lp-faq-body">Yes, completely. There's no payment screen hidden at the end and no "premium results" paywall. The only thing we ask for is your name, business name, city, and an optional WhatsApp number, so we can send your result to you.</div>
+    </details>
+    <details class="lp-faq-item">
+      <summary>Will I be pushed to buy something afterward?<span class="lp-faq-plus"></span></summary>
+      <div class="lp-faq-body">Your result includes an option to message us on WhatsApp and a mention of Scale, our ₹499 playbook. Both are optional next steps, not requirements — you'll see your full score and breakdown regardless.</div>
+    </details>
+    <details class="lp-faq-item">
+      <summary>What happens with the information I give you?<span class="lp-faq-plus"></span></summary>
+      <div class="lp-faq-body">It's used only to send you your result and, occasionally, something genuinely useful — never sold or spammed.</div>
+    </details>
+    <details class="lp-faq-item">
+      <summary>How long does it actually take?<span class="lp-faq-plus"></span></summary>
+      <div class="lp-faq-body">About three minutes for the 18 questions, plus a few seconds to enter your details at the end.</div>
+    </details>
+  </div>
+</section>
+
+<section class="landing-max">
+  <div class="lp-final">
+    <h2>Three minutes to see what's actually happening in your business.</h2>
+    <p>Free, honest, and over before you know it.</p>
+    <button class="btn-primary-lg" id="ctaFinal">
+      Get the Audit
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <p class="lp-cross">Prefer to read first? <a href="scale.html">Check out Scale, our ₹499 playbook.</a></p>
+  </div>
+</section>
+
+<footer class="lp-footer landing-max">
+  <div class="lp-foot-row">
+    <a href="index.html" class="logo">Waves <span style="color:var(--blue-600)">Digital</span></a>
+    <div class="lp-foot-links">
+      <a href="index.html">Home</a>
+      <a href="scale.html">Scale</a>
+      <a href="https://wa.me/910000000000" target="_blank" rel="noopener">WhatsApp Us</a>
+    </div>
+  </div>
+  <p class="lp-foot-fine">© 2026 Waves Digital. The Business Audit is free, with no obligation to purchase anything.</p>
+</footer>
+
+<!-- ================= EMBEDDED QUIZ APP (audit.js drives everything below) ================= -->
+<main class="wrap" id="auditApp">
+
+  <!-- SCREEN 1: INTRO -->
+  <section class="screen active" id="screen-intro">
+    <div class="intro-head">
+      <div class="eyebrow">The Business Audit</div>
+      <h1>Find out exactly where your business's foundation stands.</h1>
+      <p>18 quick questions. No theory, no jargon — just a clear picture of what's solid, what's missing, and where it's quietly costing you. Free, and it takes about three minutes.</p>
+    </div>
+    <div class="intro-meta">
+      <div class="meta-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6"/><path d="M12 7v5l3 2" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round"/></svg> 3 minutes</div>
+      <div class="meta-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6"/></svg> No payment, no signup</div>
+      <div class="meta-item"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#15120D" stroke-opacity="0.4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Results sent on WhatsApp</div>
+    </div>
+    <div class="vert-label">What kind of business do you run?</div>
+    <div class="vert-grid" id="vertGrid"></div>
+  </section>
+
+  <!-- SCREEN 2: QUESTIONS -->
+  <section class="screen" id="screen-question">
+    <div class="progress-row">
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">Q1 / 18</div>
+    </div>
+    <div class="cat-tag" id="catTag"></div>
+    <h2 class="q-text" id="qText"></h2>
+    <div class="opt-list" id="optList"></div>
+    <div class="q-nav">
+      <button class="btn-text" id="backBtn">← Previous question</button>
+    </div>
+  </section>
+
+  <!-- SCREEN 3: LEAD CAPTURE -->
+  <section class="screen" id="screen-lead">
+    <div class="form-head">
+      <h2>One last step — where should we send your results?</h2>
+      <p>We'll show your full breakdown on this screen, and can send a copy to your WhatsApp if you'd like.</p>
+    </div>
+    <form class="lead-form" id="leadForm" novalidate>
+      <input type="text" name="website" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="field">
+        <label for="bizName">Business name</label>
+        <input type="text" id="bizName" name="bizName" required autocomplete="organization">
+      </div>
+      <div class="field">
+        <label for="personName">Your name</label>
+        <input type="text" id="personName" name="personName" required autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="city">City</label>
+        <input type="text" id="city" name="city" required autocomplete="address-level2">
+      </div>
+      <div class="field optional">
+        <label for="whatsapp">WhatsApp number</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="98765 43210" autocomplete="tel">
+      </div>
+      <button type="submit" class="btn-primary" id="leadSubmitBtn">Show My Results</button>
+      <p class="form-fine">We'll only use this to send your audit and the occasional useful message — never spam.</p>
+    </form>
+  </section>
+
+  <!-- SCREEN 4: RESULTS -->
+  <section class="screen" id="screen-results">
+    <div class="result-head">
+      <div class="tier-badge" id="tierBadge"><span class="dot"></span><span id="tierLabel"></span></div>
+      <h2 id="resultHeadline"></h2>
+      <p class="result-narrative" id="resultNarrative"></p>
+    </div>
+
+    <div class="score-overview">
+      <div class="score-circle">
+        <svg viewBox="0 0 120 120" width="120" height="120">
+          <circle cx="60" cy="60" r="52" class="track" style="stroke:var(--line);fill:none;stroke-width:9;"/>
+          <circle id="scoreRing" cx="60" cy="60" r="52" style="fill:none;stroke-width:9;stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;" stroke="var(--blue-600)"/>
+        </svg>
+        <div class="scnum"><b id="scoreNum">0</b><span>out of 100</span></div>
+      </div>
+    </div>
+
+    <div class="cat-breakdown" id="catBreakdown"></div>
+
+    <div class="result-ctas">
+      <a class="cta-whatsapp" id="waCta" href="#" target="_blank" rel="noopener">
+        <span>Talk to us about fixing this<small>Send your result straight to our WhatsApp</small></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M5 19l1.4-4.2A8 8 0 1112 20a8 8 0 01-5-1.7L5 19z" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>
+      </a>
+      <div class="sidesell">
+        <div class="ss-text"><strong>Want to fix this yourself first?</strong>Scale — our ₹499 playbook — walks you through it chapter by chapter.</div>
+        <a href="scale.html" class="ss-cta">See Scale →</a>
+      </div>
+    </div>
+
+    <div class="restart-row"><button id="restartBtn">Start over with a different business type</button></div>
+  </section>
+
+</main>
+
+<script>
+  // Reveals the embedded audit app and scrolls to it. Kept separate from audit.js on purpose —
+  // audit.js owns the quiz logic only and is untouched by this.
+  (function(){
+    function revealAudit(){
+      var app = document.getElementById('auditApp');
+      if(!app) return;
+      app.style.display = 'block';
+      app.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+    var heroBtn = document.getElementById('ctaHero');
+    var finalBtn = document.getElementById('ctaFinal');
+    if(heroBtn) heroBtn.addEventListener('click', revealAudit);
+    if(finalBtn) finalBtn.addEventListener('click', revealAudit);
+  })();
+</script>
+
+<script src="audit.js"></script>
+
+</body>
+</html>

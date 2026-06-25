@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /scale-thank-you.html
 
-Sitemap: https://REPLACE-WITH-YOUR-DOMAIN.in/sitemap.xml
+Sitemap: https://wavesdigital.in/sitemap.xml

@@ -502,8 +502,9 @@
 </footer>
 
 <script>
-const SUPABASE_URL = "https://ebfpwzxdysrsnvcwdfug.supabase.co";       // e.g. https://xyz.supabase.co
+const SUPABASE_URL = "https://ebfpwzxdysrsnvcwdfug.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImViZnB3enhkeXNyc252Y3dkZnVnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODIxNjExMjIsImV4cCI6MjA5NzczNzEyMn0.trbOczJUHkrDx4C-TF3zOcsSaWDg5w9CxYvZaZkvprw";
+const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbzL8G38cK4QojcFX8Nl5ZV4njSvgDF05RMLxD2BotksHaikukrEFsK19_gXZuFDayNf/exec";
 
 async function submitScaleForm(e){
   e.preventDefault();
@@ -529,6 +530,16 @@ async function submitScaleForm(e){
       body: JSON.stringify({ name, email, whatsapp: wa, source: "scale" })
     });
     if (!res.ok) throw new Error("Save failed");
+
+    // Google Sheets — fire and forget
+    if(GOOGLE_SHEETS_URL.indexOf("PASTE_") !== 0){
+      fetch(GOOGLE_SHEETS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ name, email, whatsapp: wa, source: "scale", timestamp: new Date().toISOString() })
+      }).catch(()=>{});
+    }
+
     window.location.href = "scale-thank-you.html";
   } catch(ex) {
     err.textContent = "Something went wrong. Try again or WhatsApp us.";

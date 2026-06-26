@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /scale-thank-you.html
-
-Sitemap: https://wavesdigital.in/sitemap.xml

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Download Scale — Waves Digital</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FFFDF9; --ink:#15120D; --ink-soft:#4A4640;
+    --b3:#0660EB; --b6:#C7DCFB; --line:#E8E1D3; --radius:28px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;min-height:100vh;background:var(--bg);color:var(--ink);
+    font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;
+    display:flex;align-items:center;justify-content:center;padding:24px;}
+  .card{max-width:440px;width:100%;background:#fff;border-radius:var(--radius);
+    padding:44px 36px;box-shadow:0 30px 90px rgba(21,18,13,.10);text-align:center;}
+  .icon{width:56px;height:56px;margin:0 auto 22px;border-radius:50%;background:#E8F5EE;
+    display:flex;align-items:center;justify-content:center;color:#1E7A4C;}
+  .icon svg{width:26px;height:26px;}
+  h1{font-family:'Syne',sans-serif;font-weight:800;font-size:24px;line-height:1.3;margin:0 0 12px;}
+  p{font-size:15px;line-height:1.6;color:var(--ink-soft);margin:0 0 24px;}
+  .btn{display:block;width:100%;text-decoration:none;font-family:'DM Sans',sans-serif;
+    font-weight:600;font-size:15px;border-radius:999px;padding:15px;cursor:pointer;border:none;}
+  .btn-primary{background:var(--b3);color:#fff;margin-bottom:10px;}
+  .btn-ghost{background:transparent;color:var(--ink-soft);font-size:13.5px;
+    border:1.5px solid var(--line);}
+  .brand{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;
+    color:var(--ink-soft);margin-top:28px;}
+  .brand span{color:var(--b3);}
+  .audit-nudge{background:var(--b6);border-radius:16px;padding:18px 20px;margin-top:20px;font-size:14px;color:var(--ink-soft);}
+  .audit-nudge a{color:var(--b3);font-weight:600;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+  </div>
+  <h1>Your copy of Scale is ready.</h1>
+  <p>Click below to download the PDF. Save it to your phone — you'll want to come back to it.</p>
+
+  <!-- Hosted directly in this repo at /assets/Scale.pdf — no external storage dependency -->
+  <a class="btn btn-primary" href="assets/Scale.pdf" download="Scale-WavesDigital.pdf">
+    ↓ Download Scale (PDF)
+  </a>
+
+  <a class="btn btn-ghost" href="audit.html">Take the Free Business Audit</a>
+
+  <div class="audit-nudge">
+    Want to know exactly where your business is leaking money?<br>
+    <a href="audit.html">Take the 3-minute audit →</a>
+  </div>
+</div>
+<div style="text-align:center;"><div class="brand">Waves <span>Digital</span></div></div>
+</body>
+</html>

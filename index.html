@@ -837,6 +837,8 @@
       .footer-inner { flex-direction: column; gap: 0.6rem; text-align: center; }
     }
   </style>
+  <link rel="stylesheet" href="audit-widget.css">
+</head>
 </head>
 <body>
 
@@ -847,7 +849,7 @@
     <ul class="nav-links">
       <li class="nav-hide"><a href="#wedo">What We Do</a></li>
       <li class="nav-hide"><a href="#forwho">For Who</a></li>
-      <li><a class="nav-cta" href="#audit"><span class="cta-full">Get Your Audit </span><span class="cta-short">Audit</span></a></li>
+      <li><a class="nav-cta" href="#" onclick="WDA.openAuditModal()"><span class="cta-full">Get Your Audit </span><span class="cta-short">Audit</span></a></li>
     </ul>
   </div>
 </nav>
@@ -865,7 +867,7 @@
       They are the ones who built the right foundation — before everyone else understood why it mattered.
     </p>
     <div class="hero-btns">
-      <a class="btn btn-solid" href="#audit">Get a Free Audit</a>
+      <a class="btn btn-solid" href="#" onclick="WDA.openAuditModal()">Get a Free Audit</a>
       <a class="link-ghost" href="#wedo" style="color:rgba(255,255,255,0.6);">See what we do →</a>
     </div>
   </div>
@@ -1120,7 +1122,7 @@
       the longer you wait.
     </h2>
     <div class="end-cta-btns">
-      <a class="btn btn-solid" href="#">Get a Free Audit</a>
+      <a class="btn btn-solid" href="#" onclick="WDA.openAuditModal()">Get a Free Audit</a>
       <a class="btn btn-line" href="scale.html">Read the Playbook — Free</a>
     </div>
   </div>
@@ -1213,5 +1215,24 @@
     tiltEl.addEventListener('mouseenter', () => { tiltEl.style.transition = ''; });
   }
 </script>
+</body>
+  <div class="modal-overlay" id="modalOverlay">
+  <div class="modal-card">
+    <button class="modal-close" onclick="WDA.closeAuditModal()" aria-label="Close">
+      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
+    </button>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand">Waves <span>Digital</span></div>
+        <div id="stepLabel" style="font-size:12px;color:var(--ink-soft);"></div>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+    <div class="wrap">
+      <div id="app"></div>
+    </div>
+  </div>
+</div>
+<script src="audit-widget.js"></script>
 </body>
 </html>

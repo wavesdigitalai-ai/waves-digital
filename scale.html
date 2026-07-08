@@ -484,6 +484,7 @@
       <p>Free. Fill the form below, download the PDF instantly. Nothing to pay, ever.</p>
 
       <form id="scaleForm" style="max-width:400px;margin:0 auto 24px;display:flex;flex-direction:column;gap:12px;" onsubmit="submitScaleForm(event)">
+        <input type="text" id="hp_field" name="hp_field" tabindex="-1" autocomplete="off" aria-label="Leave this field blank" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;" aria-hidden="true">
         <input type="text" id="sf_name" placeholder="Your name" required
           style="padding:14px 18px;border-radius:100px;border:1.5px solid rgba(255,253,249,0.2);background:rgba(255,253,249,0.08);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;width:100%;">
         <input type="email" id="sf_email" placeholder="Email address" required
@@ -524,6 +525,9 @@ const GOOGLE_SHEETS_URL = "https://script.google.com/macros/s/AKfycbz4QX4tDAxxSz
 
 async function submitScaleForm(e){
   e.preventDefault();
+  if (document.getElementById("hp_field").value.trim() !== "") {
+  return; // bot detected, silently do nothing
+}
   const btn = document.getElementById("sfBtn");
   const err = document.getElementById("sfError");
   const name = document.getElementById("sf_name").value.trim();

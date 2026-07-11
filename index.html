@@ -910,6 +910,255 @@
   }
   </script>
 </head>
+<!-- ============================================================
+  WAVES DIGITAL — LEGAL MODAL COMPONENT
+  Paste this entire block just before the closing </body> tag
+  on index.html, scale.html, audit.html, and scale-thank-you.html.
+
+  Then in your footer, replace/add these three links:
+    <a href="#" onclick="openLegal('privacy'); return false;">Privacy Policy</a>
+    <a href="#" onclick="openLegal('terms'); return false;">Terms &amp; Conditions</a>
+    <a href="#" onclick="openLegal('pricing'); return false;">Pricing &amp; Refund Policy</a>
+
+  BEFORE GOING LIVE — fill in every [BRACKETED] placeholder below.
+  Search this file for "[" to find all of them.
+============================================================ -->
+
+<style>
+  :root{
+    --wd-paper:#FFFDF9;
+    --wd-ink:#15120D;
+    --wd-signal:#0660EB;
+    --wd-hairline:rgba(21,18,13,0.08);
+  }
+
+  #wd-legal-overlay{
+    position:fixed; inset:0; z-index:9999;
+    background:rgba(21,18,13,0.55);
+    backdrop-filter:blur(2px);
+    display:none;
+    align-items:flex-start;
+    justify-content:center;
+    padding:4vh 16px;
+    font-family:'DM Sans', system-ui, sans-serif;
+  }
+  #wd-legal-overlay.wd-open{ display:flex; }
+
+  #wd-legal-modal{
+    background:var(--wd-paper);
+    color:var(--wd-ink);
+    width:100%;
+    max-width:760px;
+    max-height:92vh;
+    border-radius:14px;
+    border:1px solid var(--wd-hairline);
+    box-shadow:0 24px 60px rgba(21,18,13,0.25);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  #wd-legal-modal .wd-legal-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 24px 0 24px;
+  }
+  #wd-legal-modal .wd-legal-title{
+    font-family:'Syne', system-ui, sans-serif;
+    font-weight:700;
+    font-size:20px;
+    margin:0;
+  }
+  #wd-legal-modal .wd-legal-close{
+    border:none;
+    background:transparent;
+    font-size:22px;
+    line-height:1;
+    cursor:pointer;
+    color:var(--wd-ink);
+    opacity:0.6;
+    padding:4px 8px;
+  }
+  #wd-legal-modal .wd-legal-close:hover{ opacity:1; }
+
+  #wd-legal-modal .wd-legal-tabs{
+    display:flex;
+    gap:4px;
+    padding:16px 24px 0 24px;
+    border-bottom:1px solid var(--wd-hairline);
+    flex-wrap:wrap;
+  }
+  #wd-legal-modal .wd-legal-tab{
+    border:none;
+    background:transparent;
+    font-family:'DM Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+    padding:10px 14px;
+    cursor:pointer;
+    color:var(--wd-ink);
+    opacity:0.55;
+    border-bottom:2px solid transparent;
+    margin-bottom:-1px;
+  }
+  #wd-legal-modal .wd-legal-tab.wd-active{
+    opacity:1;
+    border-bottom:2px solid var(--wd-signal);
+    color:var(--wd-signal);
+  }
+
+  #wd-legal-modal .wd-legal-body{
+    overflow-y:auto;
+    padding:20px 24px 28px 24px;
+    font-size:14.5px;
+    line-height:1.65;
+  }
+  #wd-legal-modal .wd-legal-body h3{
+    font-family:'Syne', system-ui, sans-serif;
+    font-size:15px;
+    margin:22px 0 6px 0;
+  }
+  #wd-legal-modal .wd-legal-body h3:first-child{ margin-top:0; }
+  #wd-legal-modal .wd-legal-body p{ margin:0 0 10px 0; }
+  #wd-legal-modal .wd-legal-body ul{ margin:0 0 10px 0; padding-left:20px; }
+  #wd-legal-modal .wd-legal-body li{ margin-bottom:4px; }
+  #wd-legal-modal .wd-legal-doc{ display:none; }
+  #wd-legal-modal .wd-legal-doc.wd-active{ display:block; }
+  #wd-legal-modal .wd-legal-meta{
+    font-family:'DM Mono', monospace;
+    font-size:11px;
+    opacity:0.55;
+    margin-bottom:16px;
+  }
+  #wd-legal-modal .wd-legal-placeholder{
+    background:#FFF3CD;
+    color:#5c4500;
+    padding:1px 5px;
+    border-radius:3px;
+    font-family:'DM Mono', monospace;
+    font-size:0.9em;
+  }
+
+  body.wd-legal-lock{ overflow:hidden; }
+</style>
+
+<div id="wd-legal-overlay" onclick="if(event.target===this) closeLegal();">
+  <div id="wd-legal-modal" role="dialog" aria-modal="true" aria-labelledby="wd-legal-heading">
+    <div class="wd-legal-head">
+      <h2 class="wd-legal-title" id="wd-legal-heading">Legal &amp; Policies</h2>
+      <button class="wd-legal-close" onclick="closeLegal()" aria-label="Close">&times;</button>
+    </div>
+    <div class="wd-legal-tabs">
+      <button class="wd-legal-tab" data-doc="privacy" onclick="showLegalTab('privacy')">Privacy Policy</button>
+      <button class="wd-legal-tab" data-doc="terms" onclick="showLegalTab('terms')">Terms &amp; Conditions</button>
+      <button class="wd-legal-tab" data-doc="pricing" onclick="showLegalTab('pricing')">Pricing &amp; Refund Policy</button>
+    </div>
+    <div class="wd-legal-body">
+
+      <!-- ============ PRIVACY POLICY ============ -->
+      <div class="wd-legal-doc" data-doc="privacy">
+        <p>This policy covers wavesdigital.in and describes how we handle your information.</p>
+
+        <h3>What we collect</h3>
+        <p>When you fill out a form on this site, we collect the details you provide — such as your name, business name, phone number, and email. We don't knowingly collect information from anyone under 18.</p>
+
+        <h3>How we use it</h3>
+        <p>We use your information to respond to your enquiry, prepare quotes or audits, deliver services you've engaged us for, and send service updates or invoices. We'll only send marketing communication if you've opted in.</p>
+
+        <h3>Sharing and storage</h3>
+        <p>We work with trusted third-party service providers to process forms, send emails, and handle payments. We never sell your information. We don't store your card, UPI, or bank details — payments are handled directly by our payment provider.</p>
+
+        <h3>Your rights</h3>
+        <p>You can ask us to access, correct, or delete your information at any time by writing to contact@wavesdigital.in.</p>
+
+        <h3>Grievance officer</h3>
+        <p>As required under Indian IT law, you can reach our Grievance Officer at contact@wavesdigital.in.</p>
+
+        <h3>Changes</h3>
+        <p>We may update this policy from time to time; the latest version will always be posted here.</p>
+      </div>
+
+      <!-- ============ TERMS & CONDITIONS ============ -->
+      <div class="wd-legal-doc" data-doc="terms">
+        <h3>Agreement</h3>
+        <p>By using this website or engaging us for any service, you agree to these Terms. Exact scope, deliverables, and pricing for your engagement will be confirmed separately in writing before work begins.</p>
+
+        <h3>No guaranteed results</h3>
+        <p>Timelines and pricing shared here are indicative. Marketing and digital results depend on factors outside our control, and we don't guarantee specific rankings, leads, or revenue outcomes.</p>
+
+        <h3>Payment</h3>
+        <p>Projects require an advance before work begins, with the balance due before final delivery. Retainers are billed in advance each cycle. Late payment may pause work.</p>
+
+        <h3>Retainer terms</h3>
+        <p>Retainers carry a minimum commitment period and a required written notice period to cancel, both as set out in your service agreement. Fees paid for the current cycle are non-refundable.</p>
+
+        <h3>Refunds</h3>
+        <p>Advance payments are non-refundable once work has started. No refunds are given once a project is delivered and approved.</p>
+
+        <h3>Ownership</h3>
+        <p>Once fully paid, deliverables made for you belong to you. We retain the right to feature completed work in our portfolio unless you ask us not to.</p>
+
+        <h3>Liability</h3>
+        <p>Our total liability for any claim is limited to the amount you've paid us for that engagement. We're not liable for indirect or consequential losses, or for issues caused by third-party platforms we rely on.</p>
+
+        <h3>Governing law</h3>
+        <p>These Terms are governed by the laws of India, with disputes subject to the jurisdiction of Indian courts.</p>
+
+        <h3>Changes</h3>
+        <p>We may update these Terms from time to time; the latest version is always posted here.</p>
+      </div>
+
+      <!-- ============ PRICING & REFUND POLICY ============ -->
+      <div class="wd-legal-doc" data-doc="pricing">
+        <h3>Pricing</h3>
+        <p>We offer one-time project pricing and monthly retainer pricing, both confirmed in writing before work begins. Prices are in INR and exclude applicable taxes unless stated otherwise.</p>
+
+        <h3>Payment schedule</h3>
+        <p>Projects require an advance to begin, with the balance due before final delivery. Retainers are billed in advance each cycle.</p>
+
+        <h3>What's included</h3>
+        <p>Pricing covers only the deliverables in your confirmed scope. Extra requests or revisions beyond that are quoted separately.</p>
+
+        <h3>Refunds</h3>
+        <p>Advance payments are non-refundable once work has started. Retainer fees already paid for the current cycle are non-refundable.</p>
+
+        <h3>Retainer cancellation</h3>
+        <p>Retainers carry a minimum commitment period and require written notice to cancel, both as set out in your service agreement.</p>
+
+        <h3>Billing questions</h3>
+        <p>If you spot a billing error, contact us at contact@wavesdigital.in and we'll review it.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function openLegal(doc){
+    document.getElementById('wd-legal-overlay').classList.add('wd-open');
+    document.body.classList.add('wd-legal-lock');
+    showLegalTab(doc || 'privacy');
+  }
+  function closeLegal(){
+    document.getElementById('wd-legal-overlay').classList.remove('wd-open');
+    document.body.classList.remove('wd-legal-lock');
+  }
+  function showLegalTab(doc){
+    document.querySelectorAll('#wd-legal-modal .wd-legal-doc').forEach(function(el){
+      el.classList.toggle('wd-active', el.getAttribute('data-doc') === doc);
+    });
+    document.querySelectorAll('#wd-legal-modal .wd-legal-tab').forEach(function(el){
+      el.classList.toggle('wd-active', el.getAttribute('data-doc') === doc);
+    });
+    var body = document.querySelector('#wd-legal-modal .wd-legal-body');
+    if(body) body.scrollTop = 0;
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeLegal();
+  });
+</script>
 <body>
 
 <!-- ════════ NAV ════════ -->
@@ -1242,10 +1491,21 @@
 </div>
 
 <!-- ════════ FOOTER ════════ -->
-<footer>
-  <div class="footer-inner">
-    <a class="footer-logo" href="#">Waves<span>.</span>Digital</a>
-    <p class="footer-copy">© 2025 Waves Digital. All rights reserved.</p>
+<!-- ============================================================
+  FOOTER — paste this in place of your current footer content
+  on index.html, scale.html, audit.html, and scale-thank-you.html.
+  Matches your existing black bar; adds a top row of legal links.
+============================================================ -->
+
+<footer style="background:#0e0d0b; padding:0.75rem 2rem 1.25rem; font-family:'DM Sans', sans-serif;">
+  <div style="display:flex; justify-content:flex-end; gap:20px; padding-bottom:0.75rem; border-bottom:0.5px solid rgba(255,255,255,0.08); margin-bottom:0.75rem;">
+    <a href="#" onclick="openLegal('privacy'); return false;" style="color:#9a9890; font-size:12.5px; text-decoration:none;">Privacy policy</a>
+    <a href="#" onclick="openLegal('terms'); return false;" style="color:#9a9890; font-size:12.5px; text-decoration:none;">Terms &amp; conditions</a>
+    <a href="#" onclick="openLegal('pricing'); return false;" style="color:#9a9890; font-size:12.5px; text-decoration:none;">Pricing &amp; refund policy</a>
+  </div>
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <div style="font-family:'Syne', sans-serif; font-weight:700; font-size:16px; color:#f2f0ea;">Waves<span style="color:#9a9890;">.</span>Digital</div>
+    <div style="font-size:12.5px; color:#9a9890;">© 2026 Waves Digital. All rights reserved.</div>
   </div>
 </footer>
 

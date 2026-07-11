@@ -6,7 +6,7 @@
   <title>Waves Digital — Grow Your Business</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     /* ═══════════════════════════════
        TOKENS
@@ -24,6 +24,12 @@
       --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
       --dur-base: 280ms;
       --dur-slow: 480ms;
+    }
+
+    a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
     }
 
     /* ═══════════════════════════════
@@ -616,15 +622,32 @@
     @media (max-width: 480px) { .verticals { grid-template-columns: 1fr; } }
 
     /* ═══════════════════════════════
-       REVIEWS
+       REVIEWS — auto-scrolling marquee
     ═══════════════════════════════ */
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.25rem;
+    .reviews-track-outer, .proof-track-outer {
+      overflow: hidden;
       margin-top: 3.5rem;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .reviews-track, .proof-track {
+      display: flex;
+      gap: 1.25rem;
+      width: max-content;
+      animation: marquee 42s linear infinite;
+    }
+    .proof-track { animation-direction: reverse; animation-duration: 34s; }
+    .reviews-track-outer:hover .reviews-track,
+    .proof-track-outer:hover .proof-track { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reviews-track, .proof-track { animation: none; }
     }
     .review-card {
+      flex: 0 0 320px;
       border: 1px solid var(--rule);
       border-radius: 10px;
       padding: 2rem;
@@ -667,11 +690,32 @@
       font-weight: 700;
       color: var(--ink);
     }
-    .review-biz {
+     .review-biz {
       font-size: 0.76rem;
       color: var(--ink);
       opacity: 0.38;
       margin-top: 0.2rem;
+    }
+    .proof-card {
+      flex: 0 0 220px;
+      aspect-ratio: 1/1;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--rule);
+      background: #fff;
+      box-shadow: 0 6px 20px rgba(21,18,13,0.06);
+    }
+    .proof-card img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .proof-card.placeholder {
+      display: flex; align-items: center; justify-content: center;
+      background: repeating-linear-gradient(135deg, rgba(21,18,13,0.03), rgba(21,18,13,0.03) 10px, transparent 10px, transparent 20px);
+      border: 1.5px dashed var(--rule);
+      color: var(--ink); opacity: 0.35;
+      font-size: 0.78rem; text-align: center; padding: 1rem;
+    }
+    @media (max-width: 640px) {
+      .review-card { flex-basis: 260px; padding: 1.5rem; }
+      .proof-card { flex-basis: 170px; }
     }
 
     /* ═══════════════════════════════
@@ -1054,29 +1098,72 @@
     <p class="section-eye">Reviews</p>
     <h2 class="section-h2">What our clients say.</h2>
   </div>
-  <div class="reviews-grid r r-d1">
+  <div class="reviews-track-outer r r-d1">
+    <!-- Just paste a new .review-card in here — anywhere in this list.
+         JS clones the whole track once on load, so you never touch the loop math. -->
+    <div class="reviews-track" id="reviewsTrack">
 
-    <div class="review-card">
-      <p class="review-stars">★ ★ ★ ★ ★</p>
-      <p class="review-text">"Placeholder — something about how this changed the way we run our business and we can't imagine going back to how things were."</p>
-      <p class="review-name">Client Name</p>
-      <p class="review-biz">Business Type · City</p>
+      <div class="review-card">
+        <p class="review-stars">★ ★ ★ ★ ★</p>
+        <p class="review-text">"Placeholder — something about how this changed the way we run our business and we can't imagine going back to how things were."</p>
+        <p class="review-name">Client Name</p>
+        <p class="review-biz">Business Type · City</p>
+      </div>
+
+      <div class="review-card">
+        <p class="review-stars">★ ★ ★ ★ ★</p>
+        <p class="review-text">"Placeholder — something specific about results. More returning customers, less time spent on follow-ups, finally feeling organised."</p>
+        <p class="review-name">Client Name</p>
+        <p class="review-biz">Business Type · City</p>
+      </div>
+
+      <div class="review-card">
+        <p class="review-stars">★ ★ ★ ★ ★</p>
+        <p class="review-text">"Placeholder — something emotional about finally feeling like a proper business, not just a WhatsApp group with a shop attached."</p>
+        <p class="review-name">Client Name</p>
+        <p class="review-biz">Business Type · City</p>
+      </div>
+
+      <div class="review-card">
+        <p class="review-stars">★ ★ ★ ★ ★</p>
+        <p class="review-text">"Placeholder — something about how this changed the way we run our business and we can't imagine going back to how things were."</p>
+        <p class="review-name">Client Name</p>
+        <p class="review-biz">Business Type · City</p>
+      </div>
+
+      <div class="review-card">
+        <p class="review-stars">★ ★ ★ ★ ★</p>
+        <p class="review-text">"Placeholder — something specific about results. More returning customers, less time spent on follow-ups, finally feeling organised."</p>
+        <p class="review-name">Client Name</p>
+        <p class="review-biz">Business Type · City</p>
+      </div>
+
+      <div class="review-card">
+        <p class="review-stars">★ ★ ★ ★ ★</p>
+        <p class="review-text">"Placeholder — something emotional about finally feeling like a proper business, not just a WhatsApp group with a shop attached."</p>
+        <p class="review-name">Client Name</p>
+        <p class="review-biz">Business Type · City</p>
+      </div>
+
     </div>
+  </div>
 
-    <div class="review-card">
-      <p class="review-stars">★ ★ ★ ★ ★</p>
-      <p class="review-text">"Placeholder — something specific about results. More returning customers, less time spent on follow-ups, finally feeling organised."</p>
-      <p class="review-name">Client Name</p>
-      <p class="review-biz">Business Type · City</p>
+  <div class="r r-d2" style="margin-top:4rem;">
+    <p class="section-eye">Proof</p>
+    <h2 class="section-h2" style="font-size:clamp(1.3rem,2.4vw,1.9rem);">Real thank-you messages, straight from the chat.</h2>
+  </div>
+  <div class="proof-track-outer r r-d2">
+    <!-- Replace class="proof-card placeholder" with class="proof-card", and put
+         <img src="assets/proof/xxx.jpg" alt="Client thank-you message"> inside.
+         Just paste more .proof-card divs to add more — JS handles the loop. -->
+    <div class="proof-track" id="proofTrack">
+      <div class="proof-card placeholder">Screenshot 1<br>drop image here</div>
+      <div class="proof-card placeholder">Screenshot 2<br>drop image here</div>
+      <div class="proof-card placeholder">Screenshot 3<br>drop image here</div>
+      <div class="proof-card placeholder">Screenshot 4<br>drop image here</div>
+      <div class="proof-card placeholder">Screenshot 5<br>drop image here</div>
+      <div class="proof-card placeholder">Screenshot 6<br>drop image here</div>
     </div>
-
-    <div class="review-card">
-      <p class="review-stars">★ ★ ★ ★ ★</p>
-      <p class="review-text">"Placeholder — something emotional about finally feeling like a proper business, not just a WhatsApp group with a shop attached."</p>
-      <p class="review-name">Client Name</p>
-      <p class="review-biz">Business Type · City</p>
-    </div>
-
   </div>
 </div>
 
@@ -1240,6 +1327,14 @@
     });
     tiltEl.addEventListener('mouseenter', () => { tiltEl.style.transition = ''; });
   }
+
+  // Auto-duplicate marquee tracks (reviews + proof) so you only ever
+  // maintain ONE set of cards in the HTML — paste new cards anywhere
+  // in the source list, this clones the set once for the seamless loop.
+  ['reviewsTrack', 'proofTrack'].forEach(id => {
+    const track = document.getElementById(id);
+    if (track) track.innerHTML += track.innerHTML;
+  });
 </script>
 </body>
   <div class="modal-overlay" id="modalOverlay">

@@ -703,6 +703,8 @@
     }
 
     .reviews-track-outer, .proof-track-outer {
+      cursor: grab;
+user-select: none;
       overflow-x: auto;
       overflow-y: hidden;
       -webkit-overflow-scrolling: touch;
@@ -1685,7 +1687,36 @@
           outer.scrollLeft -= setWidth;
         }
       }, { passive: true });
+// Mouse drag support
+let isDragging = false;
+let startX = 0;
+let startScrollLeft = 0;
 
+outer.style.cursor = "grab";
+
+outer.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    pauseAutoScroll();
+
+    outer.style.cursor = "grabbing";
+    startX = e.pageX;
+    startScrollLeft = outer.scrollLeft;
+});
+
+window.addEventListener("mousemove", (e) => {
+    if (!isDragging) return;
+
+    const walk = (e.pageX - startX) * 1.2;
+    outer.scrollLeft = startScrollLeft - walk;
+});
+
+window.addEventListener("mouseup", () => {
+    if (!isDragging) return;
+
+    isDragging = false;
+    outer.style.cursor = "grab";
+    resumeAutoScroll();
+});
       outer.addEventListener('mouseenter', pauseAutoScroll);
       outer.addEventListener('mouseleave', () => {
         clearTimeout(manualScrollTimer);

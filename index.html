@@ -264,15 +264,6 @@
       background: var(--ink);
       color: var(--bg);
     }
-    .link-ghost {
-      font-size: 0.88rem;
-      color: var(--ink);
-      text-decoration: none;
-      opacity: 0.45;
-      transition: opacity 0.2s;
-    }
-    .link-ghost:hover { opacity: 0.9; }
-
     .cta-arrow {
       display: inline-flex;
       align-items: center;
@@ -585,10 +576,11 @@
       padding: 2.5rem;
       background: none;
       border: none;
-      cursor: default;
+      cursor: pointer;
       text-align: left;
-      transition: padding 0.3s ease, flex-direction 0.3s ease;
+      transition: padding 0.3s ease, flex-direction 0.3s ease, transform var(--dur-base) var(--ease-out-expo);
     }
+    .vcard-btn:active { transform: scale(0.98); }
     .vcard-icon {
       flex: 0 0 38px;
       width: 38px;
@@ -966,7 +958,6 @@
       .section-body { font-size: 0.95rem; }
     }
   </style>
-  <link rel="stylesheet" href="audit-widget.css">
   <meta name="description" content="The customer database, documented processes, and communication systems your business needs to grow — before waiting costs you customers. One-time projects, yours forever.">
   <link rel="canonical" href="https://wavesdigital.in/">
   <link rel="icon" type="image/png" href="/assets/favicon.png" sizes="96x96">
@@ -1051,8 +1042,10 @@
     opacity:0.6;
     min-width:44px; min-height:44px;
     display:flex; align-items:center; justify-content:center;
+    transition: opacity var(--dur-base) ease, transform var(--dur-base) var(--ease-out-expo);
   }
   #wd-legal-modal .wd-legal-close:hover{ opacity:1; }
+  #wd-legal-modal .wd-legal-close:active{ transform: scale(0.92); }
 
   #wd-legal-modal .wd-legal-tabs{
     display:flex;
@@ -1244,9 +1237,9 @@
 <div class="hero">
 
   <div class="hero-content">
-    <p class="hero-eye">Helping more than 5K+ Businesses</p>
+    <p class="hero-eye">AI Infrastructure for Indian Business</p>
     <h1 class="hero-h1">
-      Grow your<br><span class="hero-h1-big">BUSINESS</span>
+      Grow your<br><span class="hero-h1-big">Business.</span>
     </h1>
     <p class="hero-sub">
       They are the ones who built the right foundation — before everyone else understood why it mattered.
@@ -1569,6 +1562,16 @@
   </div>
 </div>
 
+<div class="section" id="why">
+  <div class="r">
+    <p class="section-eye">Vision</p>
+    <h2 class="section-h2">Why we do this.</h2>
+    <p class="section-body">
+      Sample paragraph — every year, more Indian businesses build online before knowing what they're building for. We started Waves Digital because we watched good businesses lose to worse ones that simply looked more trustworthy on a screen. Infrastructure isn't a nice-to-have anymore, it's the difference between being found and being forgotten. This is placeholder copy — the real story goes here.
+    </p>
+  </div>
+</div>
+
 <div class="end-cta" id="audit">
   <div class="end-cta-inner r">
     <h2 class="end-cta-h2">
@@ -1750,24 +1753,5 @@ window.addEventListener("mouseup", () => {
     }
   }
 </script>
-</body>
-  <div class="modal-overlay" id="modalOverlay">
-  <div class="modal-card">
-    <button class="modal-close" onclick="WDA.closeAuditModal()" aria-label="Close">
-      <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    </button>
-    <div class="topbar">
-      <div class="topbar-inner">
-        <div class="brand">Waves <span>Digital</span></div>
-        <div id="stepLabel" style="font-size:12px;color:var(--ink-soft);"></div>
-      </div>
-      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-    </div>
-    <div class="wrap">
-      <div id="app"></div>
-    </div>
-  </div>
-</div>
-<script src="audit-widget.js"></script>
 </body>
 </html>

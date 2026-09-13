@@ -799,6 +799,194 @@
 .review-card:hover{
     transform:translateY(-6px) scale(1.02);
 }
+    /* ── Websites we've built ───────────────────────────────────── */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-top: 3.5rem;
+    }
+    .work-card {
+      border: 1px solid var(--rule);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      cursor: pointer;
+      transition: transform var(--dur-base) var(--ease-out-expo), box-shadow var(--dur-base) var(--ease-out-expo), border-color 0.25s;
+    }
+    .work-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(21,18,13,0.1);
+      border-color: rgba(6,96,235,0.3);
+    }
+    .work-thumb {
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: var(--blue-soft);
+    }
+    .work-thumb iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 400%;
+      height: 400%;
+      transform: scale(0.25);
+      transform-origin: top left;
+      border: 0;
+      pointer-events: none;
+    }
+    .work-thumb-fallback {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--ff-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--blue);
+      opacity: 0.5;
+      text-align: center;
+      padding: 1rem;
+    }
+    .work-meta {
+      padding: 1.1rem 1.25rem 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .work-name {
+      font-family: var(--ff-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+    }
+    .work-tag {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 400;
+      color: var(--ink);
+      opacity: 0.38;
+      margin-top: 0.2rem;
+    }
+    .work-visit {
+      flex-shrink: 0;
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--blue);
+      text-decoration: none;
+    }
+    .work-visit:hover { text-decoration: underline; }
+    @media (max-width: 900px) {
+      .work-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 560px) {
+      .work-grid { grid-template-columns: 1fr; margin-top: 2.25rem; }
+    }
+
+    #wd-work-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(21,18,13,0.65);
+      backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 3vh 16px;
+    }
+    #wd-work-overlay.wd-open { display: flex; }
+    #wd-work-modal {
+      background: var(--bg);
+      width: 100%;
+      max-width: 1040px;
+      height: 88vh;
+      border-radius: 14px;
+      border: 1px solid var(--rule);
+      box-shadow: 0 24px 60px rgba(21,18,13,0.3);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    #wd-work-modal .wd-work-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.9rem 1.25rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    #wd-work-modal .wd-work-title {
+      font-family: var(--ff-display);
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: var(--ink);
+    }
+    #wd-work-modal .wd-work-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    #wd-work-modal .wd-work-visit {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--blue);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    #wd-work-modal .wd-work-visit:hover { text-decoration: underline; }
+    #wd-work-modal .wd-work-close {
+      border: none; background: transparent;
+      font-size: 22px; line-height: 1; cursor: pointer;
+      color: var(--ink); opacity: 0.6;
+      min-width: 36px; min-height: 36px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    #wd-work-modal .wd-work-close:hover { opacity: 1; }
+    #wd-work-modal iframe {
+      flex: 1;
+      width: 100%;
+      border: 0;
+      background: #fff;
+    }
+
+    /* ── Brands we work with ────────────────────────────────────── */
+    .brands-track-outer {
+      overflow-x: auto;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin-top: 3.5rem;
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+      mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+    }
+    .brands-track-outer::-webkit-scrollbar { display: none; }
+    .brands-track {
+      display: flex;
+      align-items: center;
+      gap: 3.5rem;
+      width: max-content;
+    }
+    .brand-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--ff-display);
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      opacity: 0.7;
+      white-space: nowrap;
+    }
+    .brand-badge img {
+      display: block;
+      height: 22px;
+      width: auto;
+    }
+    @media (max-width: 640px) {
+      .brands-track-outer { margin-top: 2.25rem; }
+      .brands-track { gap: 2.25rem; }
+      .brand-badge { font-size: 0.88rem; }
+    }
+
     .faq-list {
       max-width: 760px;
       margin: 3.5rem auto 0;
@@ -1218,7 +1406,7 @@
     if(body) body.scrollTop = 0;
   }
   document.addEventListener('keydown', function(e){
-    if(e.key === 'Escape') closeLegal();
+    if(e.key === 'Escape') { closeLegal(); closeWorkPreview(); }
   });
 </script>
 <body>
@@ -1285,7 +1473,7 @@
   <div class="reality-inner r">
     <p class="reality-eye">The Reality</p>
     <p class="reality-para">
-      Every business in India runs on <strong>peoples</strong>, <strong>trust</strong> and <strong>hopes. </strong> Most of them don't have <strong>Systems</strong> and <strong>Processes</strong>, that results in obstruction of growth and create jargons daily in running . Most businesses in india have been stuck for a long time. Every new business grows to a small customer base rapidly and then hits a wall. After that, they just run on existing customer base and can't find any obvious ways to grow, while their competitor grows exponentially day by day by harnessing the leverage of capital.
+      Every business in India runs on <strong>people</strong>, <strong>trust</strong> and <strong>hope</strong>. Most of them don't have <strong>Systems</strong> and <strong>Processes</strong>, which results in obstruction of growth and creates confusion daily in running things. Most businesses in india have been stuck for a long time. Every new business grows to a small customer base rapidly and then hits a wall. After that, they just run on existing customer base and can't find any obvious ways to grow, while their competitor grows exponentially day by day by harnessing the leverage of capital.
     </p>
   </div>
 </div>
@@ -1303,17 +1491,17 @@
     <div class="wedo-card">
       <p class="wedo-n">01</p>
       <h3 class="wedo-title">Presence</h3>
-      <p class="wedo-desc">Having the core products/services and digital presence and a way to present and position your business uniquely and stndout in vast field of competitors online.</p>
+      <p class="wedo-desc">Having the core products/services and digital presence and a way to present and position your business uniquely and stand out in vast field of competitors online.</p>
     </div>
     <div class="wedo-card">
       <p class="wedo-n">02</p>
       <h3 class="wedo-title">Marketing</h3>
-      <p class="wedo-desc">Being able to get right and high paying customers at your door. Most businesses in india have the clean, designed and well developed physical presence. But the thing that seperates the industry leaders from rest is obvious and clear Marketing.</p>
+      <p class="wedo-desc">Being able to get right and high paying customers at your door. Most businesses in india have the clean, designed and well developed physical presence. But the thing that separates the industry leaders from rest is obvious and clear Marketing.</p>
     </div>
     <div class="wedo-card">
       <p class="wedo-n">03</p>
       <h3 class="wedo-title">Systems</h3>
-      <p class="wedo-desc">You have a good and high profit business, But most of it depends on you and it costs a lot on daily basis to run. We make your business independent of you and document processes and automate most part of your business and cut useless costs by developing clear and defined systems. So that, you can focus on moreimportant part of business.</p>
+      <p class="wedo-desc">You have a good and high profit business, But most of it depends on you and it costs a lot on daily basis to run. We make your business independent of you and document processes and automate most part of your business and cut useless costs by developing clear and defined systems. So that, you can focus on more important part of business.</p>
     </div>
   </div>
 
@@ -1433,6 +1621,49 @@
   </div>
 </div>
 
+<div class="section" id="work">
+  <div class="r">
+    <p class="section-eye">Our Work</p>
+    <h2 class="section-h2">Websites.</h2>
+  </div>
+  <div class="work-grid r r-d1" id="workGrid"></div>
+</div>
+
+<div id="wd-work-overlay" onclick="if(event.target===this) closeWorkPreview();">
+  <div id="wd-work-modal" role="dialog" aria-modal="true" aria-labelledby="wd-work-heading">
+    <div class="wd-work-head">
+      <span class="wd-work-title" id="workPreviewName">Preview</span>
+      <div class="wd-work-actions">
+        <a class="wd-work-visit" id="workPreviewLink" href="#" target="_blank" rel="noopener">Open full site ↗</a>
+        <button class="wd-work-close" onclick="closeWorkPreview()" aria-label="Close">&times;</button>
+      </div>
+    </div>
+    <iframe id="workPreviewFrame" title="Website preview"></iframe>
+  </div>
+</div>
+
+<div class="section" id="brands">
+  <div class="r">
+    <p class="section-h2" style="font-size:clamp(1.75rem, 3.5vw, 3rem); margin-bottom:0;">Brands.</p>
+  </div>
+  <div class="brands-track-outer r r-d1">
+    <div class="brands-track" id="brandsTrack">
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/godaddy" alt="" onerror="this.style.display='none'">GoDaddy</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/hostinger" alt="" onerror="this.style.display='none'">Hostinger</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/namecheap" alt="" onerror="this.style.display='none'">Namecheap</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/wordpress" alt="" onerror="this.style.display='none'">WordPress</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/wix" alt="" onerror="this.style.display='none'">Wix</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/shopify" alt="" onerror="this.style.display='none'">Shopify</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/cloudflare" alt="" onerror="this.style.display='none'">Cloudflare</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/vercel" alt="" onerror="this.style.display='none'">Vercel</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/netlify" alt="" onerror="this.style.display='none'">Netlify</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/whatsapp" alt="" onerror="this.style.display='none'">WhatsApp</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/meta" alt="" onerror="this.style.display='none'">Meta</span>
+      <span class="brand-badge"><img src="https://cdn.simpleicons.org/razorpay" alt="" onerror="this.style.display='none'">Razorpay</span>
+    </div>
+  </div>
+</div>
+
 <div class="section" id="reviews">
   <div class="r">
     <p class="section-eye">Reviews</p>
@@ -1480,7 +1711,7 @@
         <p class="review-stars">★ ★ ★ ★ </p>
         <p class="review-text">Main toh abhi phase 1 pe hi hoon, but soch rha hun marketing ke baare me. Baaki service badhiya hai .</p>
         <p class="review-name">Vaibhav Das</p>
-        <p class="review-biz">Resthouse · Lukhnow</p>
+        <p class="review-biz">Resthouse · Lucknow</p>
       </div>
 
     </div>
@@ -1751,6 +1982,136 @@ window.addEventListener("mouseup", () => {
 
       requestAnimationFrame(autoScroll);
     }
+  }
+</script>
+
+<script>
+  /* ────────────────────────────────────────────────────────────────
+     WEBSITES WE'VE BUILT — add unlimited sites here.
+     Just add another { name: "...", url: "..." } object to the array
+     below. Nothing else needs to change — cards, previews, and links
+     are all generated from this list automatically.
+
+     - name: shown on the card and in the preview modal
+     - url:  the live site — used for both the "Visit" link and the
+             preview (the card shows a live scaled-down iframe of it)
+     - tag (optional): a small label under the name, e.g. the client's
+             city or business type
+     - image (optional): a screenshot URL to show instead of a live
+             iframe, for sites that block being embedded
+  ──────────────────────────────────────────────────────────────── */
+  const portfolioSites = [
+  { name: "Boojee Cafe", url: "https://boojeecafe.com", tag: "Cafe" },
+  { name: "Chisel Dental Clinic", url: "https://chiseldental.co.in", tag: "Dental clinic" },
+  { name: "Sky Dental Clinic", url: "https://skydentalclinics.com", tag: "Dental clinic" },
+  { name: "House of Armuse", url: "https://houseofarmuse.com", tag: "Fashion boutique" },
+  { name: "Tarkashastra", url: "https://tarkashastra.co.in", tag: "Coaching institute" },
+  { name: "EQL Classes", url: "https://eqlclasses.com", tag: "Coaching institute" },
+  { name: "FitMap", url: "https://fitmap.in", tag: "Gym" },
+  { name: "Marie Claire Paris Salon", url: "https://marieclairesalon.in", tag: "Salon" },
+  { name: "Golden Hive Luxury Salon", url: "https://goldenhive.co.in", tag: "Salon/spa" },
+  { name: "Jay Ambe Furniture", url: "https://jayambefurniture.co.in", tag: "Furniture retail" },
+  { name: "Better Home India", url: "https://betterhomeindia.com", tag: "Furniture retail" },
+  { name: "Old Madras Baking Company", url: "https://ombc.in", tag: "Bakery" },
+  { name: "SA Fairs Interior Designers", url: "https://safairs.com", tag: "Interior design" },
+  { name: "DearPet", url: "https://dearpet.in", tag: "Pet grooming" },
+  { name: "Whoopers Boutique Hotel", url: "https://whoopers.in", tag: "Boutique hotel" },
+  { name: "Laura Luxury Salon", url: "https://laurasalon.in", tag: "Salon" },
+  { name: "Harsh Studio Photography", url: "https://harshstudiophotography.in", tag: "Photography studio" },
+  { name: "Art Interiorz", url: "https://artinteriorz.com", tag: "Interior design" },
+  { name: "JUNA — The Fitness Sanctum", url: "https://juna.in", tag: "Gym" },
+];
+
+  function renderWorkGrid() {
+    const grid = document.getElementById('workGrid');
+    if (!grid) return;
+    grid.innerHTML = portfolioSites.map((site, i) => `
+      <div class="work-card" onclick="openWorkPreview(${i})">
+        <div class="work-thumb">
+          ${site.image
+            ? `<img src="${site.image}" alt="${site.name} screenshot" style="width:100%;height:100%;object-fit:cover;object-position:top;">`
+            : `<iframe src="${site.url}" loading="lazy" title="${site.name} preview" onerror="this.style.display='none'"></iframe>`
+          }
+        </div>
+        <div class="work-meta">
+          <span>
+            <span class="work-name">${site.name}</span>
+            ${site.tag ? `<span class="work-tag">${site.tag}</span>` : ''}
+          </span>
+          <a class="work-visit" href="${site.url}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Visit ↗</a>
+        </div>
+      </div>
+    `).join('');
+  }
+  renderWorkGrid();
+
+  function openWorkPreview(i) {
+    const site = portfolioSites[i];
+    if (!site) return;
+    document.getElementById('workPreviewFrame').src = site.url;
+    document.getElementById('workPreviewName').textContent = site.name;
+    document.getElementById('workPreviewLink').href = site.url;
+    document.getElementById('wd-work-overlay').classList.add('wd-open');
+    document.body.classList.add('wd-legal-lock');
+  }
+  function closeWorkPreview() {
+    const overlay = document.getElementById('wd-work-overlay');
+    if (!overlay || !overlay.classList.contains('wd-open')) return;
+    overlay.classList.remove('wd-open');
+    document.getElementById('workPreviewFrame').src = '';
+    document.body.classList.remove('wd-legal-lock');
+  }
+
+  /* ────────────────────────────────────────────────────────────────
+     BRANDS WE WORK WITH — scrolls continuously in a circular loop
+     (same technique as the reviews carousel above). To add a brand,
+     add another <span class="brand-badge"> inside #brandsTrack in
+     the HTML — no JS changes needed.
+  ──────────────────────────────────────────────────────────────── */
+  const brandsOuter = document.querySelector('.brands-track-outer');
+  const brandsTrackEl = document.getElementById('brandsTrack');
+
+  function startBrandsLoop() {
+    if (!brandsOuter || !brandsTrackEl) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const brandsOriginalHTML = brandsTrackEl.innerHTML;
+    brandsTrackEl.innerHTML = brandsOriginalHTML + brandsOriginalHTML + brandsOriginalHTML;
+    const brandsSetWidth = brandsTrackEl.scrollWidth / 3;
+    if (!brandsSetWidth) return; // guard against a still-empty measurement
+    brandsOuter.scrollLeft = brandsSetWidth;
+
+    let brandsPaused = false;
+    brandsOuter.addEventListener('mouseenter', () => { brandsPaused = true; });
+    brandsOuter.addEventListener('mouseleave', () => { brandsPaused = false; });
+
+    function loopBrands() {
+      if (!brandsPaused) {
+        brandsOuter.scrollLeft += 1.9;
+        if (brandsOuter.scrollLeft >= brandsSetWidth * 2) {
+          brandsOuter.scrollLeft -= brandsSetWidth;
+        }
+      }
+      requestAnimationFrame(loopBrands);
+    }
+    requestAnimationFrame(loopBrands);
+  }
+
+  // Wait for the logo images to finish loading so the measured width
+  // (and therefore the loop point) is accurate from the very first frame.
+  const brandsImgs = brandsTrackEl ? Array.from(brandsTrackEl.querySelectorAll('img')) : [];
+  let brandsImgsPending = brandsImgs.filter(img => !img.complete).length;
+  if (brandsImgsPending === 0) {
+    startBrandsLoop();
+  } else {
+    brandsImgs.forEach(img => {
+      img.addEventListener('load', onBrandsImgSettled, { once: true });
+      img.addEventListener('error', onBrandsImgSettled, { once: true });
+    });
+  }
+  function onBrandsImgSettled() {
+    brandsImgsPending -= 1;
+    if (brandsImgsPending <= 0) startBrandsLoop();
   }
 </script>
 </body>
